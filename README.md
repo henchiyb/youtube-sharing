@@ -19,3 +19,18 @@ Youtube sharing application
 * Deployment instructions
 
 * ...
+
+### Model
+
+- User
+  - email
+  - password
+- Video
+  - title
+  - description
+  - video_url
+  - user_id
+- Notification
+  - video_id
+  - user_id
+

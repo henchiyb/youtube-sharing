@@ -1,0 +1,10 @@
+inherit_from: .rubocop_todo.yml
+require: 
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-capybara
+
+AllCops:
+  TargetRubyVersion: 3.2.2
+  NewCops: disable
+
