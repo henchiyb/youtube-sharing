@@ -15,11 +15,17 @@ Style/FrozenStringLiteralComment:
 Style/SymbolProc:
   Enabled: false
 
+Style/SymbolArray:
+  Enabled: false
+
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/BlockLength:
+  Enabled: false
+
+Lint/NestedMethodDefinition:
   Enabled: false

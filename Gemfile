@@ -11,6 +11,7 @@ gem 'rails', '~> 7.1.1'
 gem 'sprockets-rails'
 
 gem 'mysql2'
+gem 'rack-cors'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'jbuilder'
