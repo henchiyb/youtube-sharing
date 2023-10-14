@@ -7,6 +7,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import PageLayout from "./layouts/PageLayout/PageLayout";
 import "bootstrap/dist/css/bootstrap.css";
 import { AuthProvider } from "./hooks/useAuth";
+import ShareMovie from "./pages/ShareMovie/ShareMovie";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/share",
+        element: (
+          <ProtectedRoute>
+            <ShareMovie />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

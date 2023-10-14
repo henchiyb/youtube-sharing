@@ -2,22 +2,35 @@ import {
   AppBar,
   Box,
   Button,
-  IconButton,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect } from "react";
+import useWindowSize from "../../hooks/useWindowSize";
+import { useNavigate } from "react-router-dom";
 
+const Logo = styled(HomeIcon)`
+  margin-right: 10px;
+`;
 const InputField = styled(TextField)`
-  margin: 10px 10px 10px 10px !important;
+  margin-left: 10px !important;
+`;
+
+const BaseButton = styled(Button)`
+  margin-left: 10px !important;
+  text-transform: none !important;
+  border: 1px solid black !important;
 `;
 
 const Header = () => {
   const auth = useAuth();
+  const windowSize = useWindowSize();
+  const navigate = useNavigate();
   useEffect(() => {
     auth.authenticated();
   }, []);
@@ -35,22 +48,25 @@ const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ background: "white", color: "black" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2, color: "black" }}
+          <Logo
+            fontSize="large"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Funny Movies
           </Typography>
           {!auth.loading && !auth.user ? (
             <>
               <InputField
                 id="email"
+                name="email"
                 label="Email"
                 color="info"
                 margin="dense"
@@ -58,17 +74,24 @@ const Header = () => {
               <InputField
                 type="password"
                 id="password"
-                label="Password"
+                name="password"
+                label={windowSize.width > 768 ? "Password" : "Pass"}
                 margin="dense"
               />
-              <Button color="inherit" onClick={login}>
+              <BaseButton color="inherit" onClick={login}>
                 Login
-              </Button>
+              </BaseButton>
             </>
           ) : (
-            <Button color="inherit" onClick={logout}>
-              Logout
-            </Button>
+            <>
+              {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
+              <BaseButton color="inherit" onClick={() => navigate("/share")}>
+                Share movie
+              </BaseButton>
+              <BaseButton color="inherit" onClick={logout}>
+                Logout
+              </BaseButton>
+            </>
           )}
         </Toolbar>
       </AppBar>
