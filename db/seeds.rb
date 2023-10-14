@@ -8,3 +8,12 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+if User.find_by(email: 'test1@test.com').nil?
+  5.times do |n|
+    User.create!(
+      email: "test#{n + 1}@test.com",
+      password: '123456'
+    )
+  end
+end
