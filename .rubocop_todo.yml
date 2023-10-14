@@ -24,7 +24,16 @@ Layout/EmptyLinesAroundBlockBody:
 Layout/LineLength:
   Enabled: false
 
+Layout/ArgumentAlignment:
+  Enabled: false
+
+Layout/SpaceInsideBlockBraces:
+  Enabled: false
+
 Metrics/BlockLength:
+  Enabled: false
+
+Metrics/AbcSize:
   Enabled: false
 
 Lint/NestedMethodDefinition:
