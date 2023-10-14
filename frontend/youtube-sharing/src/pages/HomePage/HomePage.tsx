@@ -1,7 +1,7 @@
-import React from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useEffect, useState } from "react";
 import Video from "../../components/Video/Video";
 import styled from "styled-components";
+import { axiosClient } from "../../lib/axios";
 
 const Container = styled.div`
   width: 100%;
@@ -11,28 +11,24 @@ const Container = styled.div`
 
   padding: 10px;
 `;
+type Video = {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  shareBy: string;
+};
 
 function HomePage() {
-  const videos = [
-    {
-      title: "Funny video",
-      description: "This is a funny video",
-      url: "https://www.youtube.com/embed/Snmh_IJL8M0?si=Htndj-ynHvIPEBH6",
-      shareBy: "admin",
-    },
-    {
-      title: "Funny video",
-      description: "This is a funny video",
-      url: "https://www.youtube.com/embed/1qN72LEQnaU",
-      shareBy: "admin",
-    },
-    {
-      title: "Funny video",
-      description: "This is a funny video",
-      url: "https://www.youtube.com/embed/1qN72LEQnaU",
-      shareBy: "admin",
-    },
-  ];
+  const [videos, setVideos] = useState<Video[]>([]);
+  useEffect(() => {
+    const getVideos = async () => {
+      const response = await axiosClient.get("/videos");
+      setVideos(response.data.videos);
+    };
+    getVideos();
+  }, []);
+
   return (
     <Container className="App">
       {videos.map((video, index) => (

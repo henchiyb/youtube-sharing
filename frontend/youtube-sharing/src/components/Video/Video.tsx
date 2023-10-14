@@ -55,8 +55,13 @@ const Video = (video: VideoProps) => {
       ></VideoFrame>
       <Description>
         <h3>{video.title}</h3>
-        <div>Share by: {video.shareBy}</div>
-        <div>Description: {video.description}</div>
+        <div>
+          <b>Share by:</b>
+        </div>
+        {video.shareBy}
+        <div>
+          <b>Description:</b>
+        </div>
         <div>{video.description}</div>
       </Description>
     </VideoContainer>

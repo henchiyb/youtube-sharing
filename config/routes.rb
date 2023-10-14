@@ -13,6 +13,11 @@ Rails.application.routes.draw do
       post 'me' => 'sessions#me'
       delete 'logout' => 'sessions#destroy'
     end
+
+    scope :videos do
+      post 'create' => 'videos#create'
+      get '/' => 'videos#index'
+    end
   end
   # Defines the root path route ("/")
   # root "posts#index"

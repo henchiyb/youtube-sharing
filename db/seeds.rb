@@ -18,3 +18,14 @@ if User.find_by(email: 'test1@test.com').nil?
     )
   end
 end
+
+if Video.find_by(title: 'Funny Video 1').nil?
+  5.times do |n|
+    Video.create!(
+      user: User.first,
+      title: "Funny Video #{n + 1}",
+      url: 'https://www.youtube.com/watch?v=9bZkp7q19f0',
+      description: 'This is a funny video'
+    )
+  end
+end

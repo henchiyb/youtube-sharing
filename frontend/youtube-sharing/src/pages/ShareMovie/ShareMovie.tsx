@@ -2,6 +2,7 @@ import { Button, FormControl, FormLabel, Input } from "@mui/material";
 import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
+import { FormEvent } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -35,13 +36,27 @@ const InputField = styled(Input)`
 
 const ShareMovie = () => {
   const navigate = useNavigate();
-  const shareMovie = async () => {
+
+  const shareMovie = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const title = document.getElementById("title") as HTMLInputElement;
     const description = document.getElementById(
       "description"
     ) as HTMLInputElement;
     const url = document.getElementById("url") as HTMLInputElement;
-    navigate("/");
+    try {
+      const res = await axiosClient.post("/videos/create", {
+        video: {
+          title: title.value,
+          description: description.value,
+          url: url.value,
+        },
+      });
+      console.log(res.data);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

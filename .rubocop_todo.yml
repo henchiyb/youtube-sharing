@@ -38,3 +38,6 @@ Metrics/AbcSize:
 
 Lint/NestedMethodDefinition:
   Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
