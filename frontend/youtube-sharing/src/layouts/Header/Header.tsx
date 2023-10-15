@@ -2,14 +2,12 @@ import {
   AppBar,
   Box,
   Button,
-  Popover,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationIcon from "@mui/icons-material/NotificationsActive";
-import ShareIcon from "@mui/icons-material/Reply";
 
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
@@ -17,7 +15,7 @@ import { useEffect, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { useNavigate } from "react-router-dom";
 import consumer from "../../lib/noticeConsumer";
-
+import { useSnackbar } from "notistack";
 const Logo = styled(HomeIcon)`
   margin-right: 10px;
 `;
@@ -43,12 +41,7 @@ const Header = () => {
   const auth = useAuth();
   const windowSize = useWindowSize();
   const navigate = useNavigate();
-  const [receivedNotification, setReceivedNotification] =
-    useState<Notification>();
-  const [sub, setSub] = useState<any>();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>();
-  const open = Boolean(anchorEl);
-
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useEffect(() => {
     const authenticated = async () => {
       const user = await auth.authenticated();
@@ -61,19 +54,21 @@ const Header = () => {
             console.log("connected");
           },
           disconnected: () => console.log("disconnected"),
-          received: (data: any) => {
-            console.log(
-              data.shareBy !== user?.email,
-              data.shareBy,
-              user?.email,
-              auth.user?.email
-            );
+          received: (data: Notification) => {
             if (data.shareBy !== user?.email) {
-              setReceivedNotification(data);
-              setAnchorEl(document.getElementById("notification"));
-              const timer = setTimeout(() => {
-                setAnchorEl(null);
-              }, 2000);
+              enqueueSnackbar(
+                "User " +
+                  data.shareBy +
+                  " just shared " +
+                  data.title +
+                  " video. Click here to view!",
+                {
+                  variant: "info",
+                  SnackbarProps: {
+                    onClick: () => navigate("/videos/" + data.id),
+                  },
+                }
+              );
             }
           },
         }
@@ -125,7 +120,7 @@ const Header = () => {
                 label={windowSize.width > 768 ? "Password" : "Pass"}
                 margin="dense"
               />
-              <BaseButton id="notification" color="inherit" onClick={login}>
+              <BaseButton id="notification0" color="inherit" onClick={login}>
                 Login
               </BaseButton>
             </>
@@ -133,39 +128,19 @@ const Header = () => {
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
               <NotificationIcon
-                id="notification"
+                id="notification0"
                 sx={{ marginLeft: 1, marginRight: 1 }}
               />
               <BaseButton color="inherit" onClick={() => navigate("/share")}>
                 Share
               </BaseButton>
               <BaseButton color="inherit" onClick={logout}>
-                Logout
+                Logouts
               </BaseButton>
             </>
           )}
         </Toolbar>
       </AppBar>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        // onClose={handleClose}
-        closeAfterTransition
-        color="secondary"
-        anchorOrigin={{
-          vertical: 50,
-          horizontal: "right",
-        }}
-      >
-        <Typography sx={{ p: 2, color: "white", background: "green" }}>
-          <ShareIcon
-            fontSize="medium"
-            sx={{ color: "white", marginBottom: 1, marginRight: 1 }}
-          />
-          User {receivedNotification?.shareBy} just shared video:{" "}
-          {receivedNotification?.title}
-        </Typography>
-      </Popover>
     </Box>
   );
 };

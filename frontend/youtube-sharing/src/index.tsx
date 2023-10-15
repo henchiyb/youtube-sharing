@@ -9,6 +9,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { AuthProvider } from "./hooks/useAuth";
 import ShareMovie from "./pages/ShareMovie/ShareMovie";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { SnackbarProvider } from "notistack";
+import ShareIcon from "@mui/icons-material/Reply";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,18 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <AuthProvider>
-    <RouterProvider router={router} />
+    <SnackbarProvider
+      maxSnack={3}
+      autoHideDuration={5000}
+      iconVariant={{
+        success: "✅",
+        error: "✖️",
+        warning: "⚠️",
+        info: <ShareIcon sx={{ marginBottom: 0.5, marginRight: 1 }} />,
+      }}
+    >
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   </AuthProvider>
 );
 

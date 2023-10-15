@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
+import { useSnackbar } from "notistack";
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +37,7 @@ const InputField = styled(Input)`
 
 const ShareMovie = () => {
   const navigate = useNavigate();
-
+  const { enqueueSnackbar } = useSnackbar();
   const shareMovie = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const title = document.getElementById("title") as HTMLInputElement;
@@ -45,16 +46,31 @@ const ShareMovie = () => {
     ) as HTMLInputElement;
     const url = document.getElementById("url") as HTMLInputElement;
     try {
-      const res = await axiosClient.post("/videos/create", {
+      await axiosClient.post("/videos/create", {
         video: {
           title: title.value,
           description: description.value,
           url: url.value,
         },
       });
-      console.log(res.data);
+      enqueueSnackbar("Share video success!", {
+        variant: "success",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
       navigate("/");
     } catch (error) {
+      enqueueSnackbar("Share video failed!", {
+        variant: "error",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
       console.log(error);
     }
   };
