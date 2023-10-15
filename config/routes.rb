@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     scope :auth do
       post 'login' => 'sessions#create'
       post 'me' => 'sessions#me'
+      post 'signup' => 'users#create'
       delete 'logout' => 'sessions#destroy'
     end
 
