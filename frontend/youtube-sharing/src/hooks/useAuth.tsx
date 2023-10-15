@@ -4,7 +4,7 @@ import { axiosClient } from "../lib/axios";
 const authContext = createContext<AuthResponse>({
   user: null,
   login: () => {},
-  authenticated: () => {},
+  authenticated: () => Promise.resolve(null),
   logout: () => {},
   loading: true,
 });
@@ -17,7 +17,7 @@ type User = {
 type AuthResponse = {
   user: User | null;
   login: (email: string, password: string) => void;
-  authenticated: () => void;
+  authenticated: () => Promise<User | null>;
   logout: () => void;
   loading: boolean;
 };
@@ -62,8 +62,10 @@ export const useProvideAuth = () => {
       const response = await axiosClient.post("/auth/me");
       setUser(response.data.user);
       setLoading(false);
+      return Promise.resolve(response.data.user);
     } catch (error) {
       setLoading(false);
+      return Promise.resolve(null);
     }
   };
   return { user, login, authenticated, logout, loading };

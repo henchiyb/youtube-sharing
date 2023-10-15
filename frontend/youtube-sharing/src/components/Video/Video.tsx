@@ -28,12 +28,27 @@ const VideoFrame = styled.iframe`
 const Description = styled.div`
   text-align: left;
   width: 30%;
-  margin-left: 10px;
+  max-height: 280px;
+  padding: 10px;
+  overflow: scroll;
+  text-overflow: ellipsis;
   @media only screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
     text-align: center;
   }
+`;
+
+const DescriptionContent = styled.div`
+  inline-size: 100%;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  max-width: 100%;
+`;
+
+const DescriptionTitle = styled.h3`
+  inline-size: 100%;
+  overflow-wrap: break-word;
+  max-width: 100%;
 `;
 
 type VideoProps = {
@@ -54,15 +69,15 @@ const Video = (video: VideoProps) => {
         allowFullScreen
       ></VideoFrame>
       <Description>
-        <h3>{video.title}</h3>
+        <DescriptionTitle>{video.title}</DescriptionTitle>
         <div>
           <b>Share by:</b>
         </div>
-        {video.shareBy}
+        <DescriptionContent>{video.shareBy}</DescriptionContent>
         <div>
           <b>Description:</b>
         </div>
-        <div>{video.description}</div>
+        <DescriptionContent>{video.description}</DescriptionContent>
       </Description>
     </VideoContainer>
   );
