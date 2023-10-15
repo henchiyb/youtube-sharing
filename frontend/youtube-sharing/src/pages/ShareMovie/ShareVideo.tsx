@@ -35,10 +35,10 @@ const InputField = styled(Input)`
   margin-top: 0;
 `;
 
-const ShareMovie = () => {
+const ShareVideo = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const shareMovie = async (e: FormEvent<HTMLFormElement>) => {
+  const ShareVideo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const title = document.getElementById("title") as HTMLInputElement;
     const description = document.getElementById(
@@ -77,8 +77,8 @@ const ShareMovie = () => {
 
   return (
     <Container>
-      <h1>ShareMovie</h1>
-      <FormContainer onSubmit={shareMovie}>
+      <h1>ShareVideo</h1>
+      <FormContainer onSubmit={ShareVideo}>
         <FormControlContainer>
           <FormLabel htmlFor="title">Title</FormLabel>
           <InputField type="text" id="title" required />
@@ -97,4 +97,4 @@ const ShareMovie = () => {
   );
 };
 
-export default ShareMovie;
+export default ShareVideo;

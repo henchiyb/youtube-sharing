@@ -41,7 +41,7 @@ const Header = () => {
   const auth = useAuth();
   const windowSize = useWindowSize();
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     const authenticated = async () => {
       const user = await auth.authenticated();
@@ -65,7 +65,9 @@ const Header = () => {
                 {
                   variant: "info",
                   SnackbarProps: {
-                    onClick: () => navigate("/videos/" + data.id),
+                    onClick: (e) => {
+                      navigate("/videos/" + data.id);
+                    },
                   },
                 }
               );
@@ -120,17 +122,14 @@ const Header = () => {
                 label={windowSize.width > 768 ? "Password" : "Pass"}
                 margin="dense"
               />
-              <BaseButton id="notification0" color="inherit" onClick={login}>
+              <BaseButton color="inherit" onClick={login}>
                 Login
               </BaseButton>
             </>
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-              <NotificationIcon
-                id="notification0"
-                sx={{ marginLeft: 1, marginRight: 1 }}
-              />
+              <NotificationIcon sx={{ marginLeft: 1, marginRight: 1 }} />
               <BaseButton color="inherit" onClick={() => navigate("/share")}>
                 Share
               </BaseButton>

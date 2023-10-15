@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     scope :videos do
       post 'create' => 'videos#create'
       get '/' => 'videos#index'
+      get '/:id' => 'videos#show'
     end
   end
   # Defines the root path route ("/")

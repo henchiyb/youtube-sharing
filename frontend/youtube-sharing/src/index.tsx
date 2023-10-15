@@ -7,10 +7,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import PageLayout from "./layouts/PageLayout/PageLayout";
 import "bootstrap/dist/css/bootstrap.css";
 import { AuthProvider } from "./hooks/useAuth";
-import ShareMovie from "./pages/ShareMovie/ShareMovie";
+import ShareVideo from "./pages/ShareVideo/ShareVideo";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { SnackbarProvider } from "notistack";
 import ShareIcon from "@mui/icons-material/Reply";
+import VideoPage from "./pages/Video/VideoPage";
 
 const router = createBrowserRouter([
   {
@@ -21,10 +22,14 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "/videos/:id",
+        element: <VideoPage />,
+      },
+      {
         path: "/share",
         element: (
           <ProtectedRoute>
-            <ShareMovie />
+            <ShareVideo />
           </ProtectedRoute>
         ),
       },
