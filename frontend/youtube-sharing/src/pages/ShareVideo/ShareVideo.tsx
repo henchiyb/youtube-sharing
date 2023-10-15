@@ -38,7 +38,7 @@ const InputField = styled(Input)`
 const ShareVideo = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const ShareVideo = async (e: FormEvent<HTMLFormElement>) => {
+  const shareVideo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const title = document.getElementById("title") as HTMLInputElement;
     const description = document.getElementById(
@@ -78,7 +78,7 @@ const ShareVideo = () => {
   return (
     <Container>
       <h1>ShareVideo</h1>
-      <FormContainer onSubmit={ShareVideo}>
+      <FormContainer onSubmit={shareVideo}>
         <FormControlContainer>
           <FormLabel htmlFor="title">Title</FormLabel>
           <InputField type="text" id="title" required />

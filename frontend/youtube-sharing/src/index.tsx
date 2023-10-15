@@ -7,11 +7,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import PageLayout from "./layouts/PageLayout/PageLayout";
 import "bootstrap/dist/css/bootstrap.css";
 import { AuthProvider } from "./hooks/useAuth";
-import ShareVideo from "./pages/ShareVideo/ShareVideo";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { SnackbarProvider } from "notistack";
 import ShareIcon from "@mui/icons-material/Reply";
 import VideoPage from "./pages/Video/VideoPage";
+import ShareVideo from "./pages/ShareVideo/ShareVideo";
+import Signup from "./pages/Signup/Signup";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
       },
       {
         path: "/videos/:id",
@@ -46,9 +51,6 @@ root.render(
       maxSnack={3}
       autoHideDuration={5000}
       iconVariant={{
-        success: "✅",
-        error: "✖️",
-        warning: "⚠️",
         info: <ShareIcon sx={{ marginBottom: 0.5, marginRight: 1 }} />,
       }}
     >

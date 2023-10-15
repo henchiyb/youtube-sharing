@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Video from "../../components/Video/Video";
 import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -23,15 +23,25 @@ type Video = {
 function VideoPage() {
   const [video, setVideo] = useState<Video | null>(null);
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     const getVideo = async () => {
-      const response = await axiosClient.get("/videos/" + id);
-      setVideo(response.data.video);
+      try {
+        const response = await axiosClient.get("/videos/" + id);
+        setVideo(response.data.video);
+      } catch (error) {
+        console.log(error);
+        navigate("/");
+      }
     };
     getVideo();
   }, []);
 
-  return <Container className="App">{video && <Video {...video} />}</Container>;
+  return (
+    <Container className="App">
+      {video ? <Video {...video} /> : "Video not found"}
+    </Container>
+  );
 }
 
 export default VideoPage;

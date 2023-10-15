@@ -23,8 +23,12 @@ function HomePage() {
   const [videos, setVideos] = useState<Video[]>([]);
   useEffect(() => {
     const getVideos = async () => {
-      const response = await axiosClient.get("/videos");
-      setVideos(response.data.videos);
+      try {
+        const response = await axiosClient.get("/videos");
+        setVideos(response.data.videos);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getVideos();
   }, []);

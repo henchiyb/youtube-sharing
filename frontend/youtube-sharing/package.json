@@ -2,6 +2,11 @@
   "name": "youtube-sharing",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!axios)"
+    ]
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -12,7 +17,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/actioncable": "^5.2.6",
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^29.1.1",
     "@types/node": "^16.18.58",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.13",
@@ -51,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.22.0"
   }
 }

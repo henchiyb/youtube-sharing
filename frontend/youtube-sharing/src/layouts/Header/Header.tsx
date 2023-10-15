@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import consumer from "../../lib/noticeConsumer";
 import { useSnackbar } from "notistack";
 const Logo = styled(HomeIcon)`
@@ -42,6 +42,7 @@ const Header = () => {
   const windowSize = useWindowSize();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
   useEffect(() => {
     const authenticated = async () => {
       const user = await auth.authenticated();
@@ -55,6 +56,11 @@ const Header = () => {
           },
           disconnected: () => console.log("disconnected"),
           received: (data: Notification) => {
+            console.log(
+              data.shareBy !== user?.email,
+              auth.user?.email,
+              user?.email
+            );
             if (data.shareBy !== user?.email) {
               enqueueSnackbar(
                 "User " +
@@ -84,6 +90,10 @@ const Header = () => {
     auth.login(email.value, password.value);
   };
 
+  const signup = () => {
+    navigate("/signup");
+  };
+
   const logout = () => {
     auth.logout();
   };
@@ -107,25 +117,30 @@ const Header = () => {
             Funny Movies
           </Typography>
           {!auth.loading && !auth.user ? (
-            <>
-              <InputField
-                id="email"
-                name="email"
-                label="Email"
-                color="info"
-                margin="dense"
-              />
-              <InputField
-                type="password"
-                id="password"
-                name="password"
-                label={windowSize.width > 768 ? "Password" : "Pass"}
-                margin="dense"
-              />
-              <BaseButton color="inherit" onClick={login}>
-                Login
-              </BaseButton>
-            </>
+            location.pathname !== "/signup" && (
+              <>
+                <InputField
+                  id="email"
+                  name="email"
+                  label="Email"
+                  color="info"
+                  margin="dense"
+                />
+                <InputField
+                  type="password"
+                  id="password"
+                  name="password"
+                  label={windowSize.width > 768 ? "Password" : "Pass"}
+                  margin="dense"
+                />
+                <BaseButton color="inherit" onClick={login}>
+                  Login
+                </BaseButton>
+                <BaseButton color="inherit" onClick={signup}>
+                  Signup
+                </BaseButton>
+              </>
+            )
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
@@ -134,7 +149,7 @@ const Header = () => {
                 Share
               </BaseButton>
               <BaseButton color="inherit" onClick={logout}>
-                Logouts
+                Logout
               </BaseButton>
             </>
           )}

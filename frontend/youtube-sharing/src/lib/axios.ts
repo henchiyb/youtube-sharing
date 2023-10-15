@@ -1,6 +1,5 @@
 import axios from "axios";
 
-axios.defaults.withCredentials = true;
 export const axiosClient = axios.create({
   // baseURL: process.env.REACT_APP_API_URL,
   baseURL: "https://api-local.youtubesharing.com:3001/api",
