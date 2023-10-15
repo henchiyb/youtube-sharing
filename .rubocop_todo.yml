@@ -18,6 +18,9 @@ Style/SymbolProc:
 Style/SymbolArray:
   Enabled: false
 
+Style/HashSyntax:
+  Enabled: false
+
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
@@ -40,4 +43,16 @@ Lint/NestedMethodDefinition:
   Enabled: false
 
 Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/AnyInstance:
   Enabled: false

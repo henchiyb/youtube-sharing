@@ -5,8 +5,10 @@ class Video < ApplicationRecord
   belongs_to :user
 
   before_validation do
-    youtube_id = url.split('=').last
-    self.url = "https://www.youtube.com/embed/#{youtube_id}"
+    if url.present?
+      youtube_id = url.split('=').last
+      self.url = "https://www.youtube.com/embed/#{youtube_id}"
+    end
   end
 
   def api_response
