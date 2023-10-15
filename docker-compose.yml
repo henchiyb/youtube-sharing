@@ -16,3 +16,10 @@ services:
       - './docker/db/data:/var/lib/mysql'
       - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
       - './docker/db/sql:/docker-entrypoint-initdb.d'
+  redis:
+    container_name: redis
+    image: redis:7.2.1
+    ports:
+      - '6379:6379'
+    volumes:
+      - './docker/redis/data:/data'

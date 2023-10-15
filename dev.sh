@@ -1,5 +1,5 @@
-start_db () {
-  docker compose up -d db
+start_docker () {
+  docker compose up -d db redis
 }
 
 start_rails() {
@@ -18,8 +18,8 @@ start_react() {
   trap "pkill webpack" EXIT INT
 }
 
-echo "!!! Starting DB !!!"
-start_db
+echo "!!! Starting docker !!!"
+start_docker
 
 echo "!!! Starting React !!!"
 start_react
