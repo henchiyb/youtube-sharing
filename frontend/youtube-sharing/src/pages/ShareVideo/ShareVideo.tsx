@@ -1,4 +1,10 @@
-import { Button, FormControl, FormLabel, Input } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  TextareaAutosize,
+} from "@mui/material";
 import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +40,15 @@ const FormControlContainer = styled(FormControl)`
 
 const InputField = styled(Input)`
   margin-top: 0;
+`;
+
+const TextareaField = styled(TextareaAutosize)`
+  margin-top: 0;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 const ShareVideo = () => {
@@ -82,11 +97,21 @@ const ShareVideo = () => {
       <FormContainer onSubmit={shareVideo}>
         <FormControlContainer>
           <FormLabel htmlFor="description">Description</FormLabel>
-          <InputField type="text" id="description" required />
+          <TextareaField
+            id="description"
+            maxRows={10}
+            required
+            placeholder="Type description here..."
+          />
         </FormControlContainer>
         <FormControlContainer>
           <FormLabel htmlFor="url">Url</FormLabel>
-          <InputField type="text" id="url" required />
+          <InputField
+            type="text"
+            id="url"
+            required
+            placeholder="Type Youtube URL here..."
+          />
         </FormControlContainer>
         <Button type="submit">Share</Button>
       </FormContainer>

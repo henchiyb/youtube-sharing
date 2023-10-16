@@ -37,14 +37,11 @@ const BaseButton = styled(Button)`
 `;
 
 const Menu = styled.div`
-  position: absolute;
-  top: 80px;
-  right: 0;
+  margin-top: 10px;
   background: white;
   padding: 10px;
   width: 100%;
   height: 100%;
-  z-index: 100;
 `;
 
 const MenuContainer = styled.div`
@@ -106,80 +103,27 @@ const Header = () => {
     authenticated();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const login = () => {
+  const login = (event: any) => {
+    event.stopPropagation();
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
     auth.login(email.value, password.value);
     setShowMenu(false);
   };
 
-  const signup = () => {
+  const signup = (event: any) => {
+    event.stopPropagation();
     navigate("/signup");
     setShowMenu(false);
   };
 
-  const logout = () => {
+  const logout = (event: any) => {
+    event.stopPropagation();
     auth.logout();
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {showMenu && windowSize.width < 768 && (
-        <Menu>
-          <MenuContainer>
-            {!auth.loading && !auth.user ? (
-              location.pathname !== "/signup" && (
-                <>
-                  <InputField
-                    id="email"
-                    name="email"
-                    label="Email"
-                    color="info"
-                    margin="dense"
-                  />
-                  <InputField
-                    type="password"
-                    id="password"
-                    name="password"
-                    label="Password"
-                    margin="dense"
-                  />
-                  <BaseButton color="inherit" onClick={login}>
-                    Login
-                  </BaseButton>
-                  <BaseButton
-                    color="inherit"
-                    onClick={signup}
-                    sx={{ marginTop: 1 }}
-                  >
-                    Signup
-                  </BaseButton>
-                </>
-              )
-            ) : (
-              <>
-                {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-                <BaseButton
-                  color="inherit"
-                  onClick={() => {
-                    setShowMenu(false);
-                    navigate("/share");
-                  }}
-                >
-                  Share
-                </BaseButton>
-                <BaseButton
-                  color="inherit"
-                  onClick={logout}
-                  sx={{ marginTop: 1 }}
-                >
-                  Logout
-                </BaseButton>
-              </>
-            )}
-          </MenuContainer>
-        </Menu>
-      )}
       <AppBar position="static" style={{ background: "white", color: "black" }}>
         <Toolbar>
           <Logo
@@ -234,7 +178,6 @@ const Header = () => {
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-              setShowMenu(false);
               <BaseButton color="inherit" onClick={() => navigate("/share")}>
                 Share
               </BaseButton>
@@ -245,6 +188,62 @@ const Header = () => {
           )}
         </Toolbar>
       </AppBar>
+      {showMenu && windowSize.width < 768 && (
+        <Menu>
+          <MenuContainer>
+            {!auth.loading && !auth.user ? (
+              location.pathname !== "/signup" && (
+                <>
+                  <InputField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    color="info"
+                    margin="dense"
+                  />
+                  <InputField
+                    type="password"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    margin="dense"
+                  />
+                  <BaseButton color="inherit" onClick={login}>
+                    Login
+                  </BaseButton>
+                  <BaseButton
+                    color="inherit"
+                    onClick={signup}
+                    sx={{ marginTop: 1 }}
+                  >
+                    Signup
+                  </BaseButton>
+                </>
+              )
+            ) : (
+              <>
+                <div>Hello {auth.user?.email}</div>
+                <BaseButton
+                  color="inherit"
+                  onClick={() => {
+                    setShowMenu(false);
+                    navigate("/share");
+                  }}
+                >
+                  Share
+                </BaseButton>
+                <BaseButton
+                  color="inherit"
+                  onClick={logout}
+                  sx={{ marginTop: 1 }}
+                >
+                  Logout
+                </BaseButton>
+              </>
+            )}
+          </MenuContainer>
+        </Menu>
+      )}
     </Box>
   );
 };

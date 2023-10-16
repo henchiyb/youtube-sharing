@@ -141,6 +141,10 @@ npm run test
   fly launch
   # Deploy without replica
   fly deploy --ha=false
+  # Add some needed secrets
+  fly secrets set REDIS_URL=xxx
+  fly secrets set CLIENT_URL=xxx
+  ...
   ```
 - React
   - Deployed via Cloudflare Pages

@@ -7,7 +7,8 @@ FROM ruby:$RUBY_VERSION-slim
 # Rails app lives here
 WORKDIR /rails
 
-# Set production environment
+# Set development environment
+# Set the rails master key for development build - don't do this in production!
 ENV RAILS_MASTER_KEY="f10950908e60069c0ef3e0ccfbbf8c50" \
     RAILS_ENV="development"
 
