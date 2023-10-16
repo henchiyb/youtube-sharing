@@ -16,6 +16,12 @@ services:
     image: redis:7.2.1
     ports:
       - '6379:6379'
+  rails:
+    container_name: rails
+    build: .
+    command: bundle exec rails s -p 3000 -b "ssl://api-local.youtubesharing.com:3001?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt"
+    ports:
+      - '3000:3000'
 
 volumes:
   db_data:

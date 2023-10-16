@@ -36,3 +36,4 @@
 /vendor
 
 /docker
+/config/credentials/production.key
