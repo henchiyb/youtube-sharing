@@ -43,7 +43,6 @@ const Signup = () => {
     e.preventDefault();
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
-    console.log(email.value, password.value);
 
     try {
       await axiosClient.post("/auth/signup", {
@@ -62,7 +61,6 @@ const Signup = () => {
       });
       navigate("/");
     } catch (error) {
-      console.log(error);
       enqueueSnackbar(
         (error as ErrorResponse).response.data.error || "Signup failed!",
         {

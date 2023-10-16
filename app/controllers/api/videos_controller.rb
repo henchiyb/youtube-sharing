@@ -25,7 +25,7 @@ module Api
     private
 
     def video_params
-      params.required(:video).permit(:title, :description, :url)
+      params.required(:video).permit(:description, :url)
     end
   end
 end

@@ -56,11 +56,6 @@ const Header = () => {
           },
           disconnected: () => console.log("disconnected"),
           received: (data: Notification) => {
-            console.log(
-              data.shareBy !== user?.email,
-              auth.user?.email,
-              user?.email
-            );
             if (data.shareBy !== user?.email) {
               enqueueSnackbar(
                 "User " +

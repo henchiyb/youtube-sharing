@@ -24,7 +24,6 @@ function VideoPage() {
         const response = await axiosClient.get("/videos/" + id);
         setVideo(response.data.video);
       } catch (error) {
-        console.log(error);
         navigate("/");
       }
     };

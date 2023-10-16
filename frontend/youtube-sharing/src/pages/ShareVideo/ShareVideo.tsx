@@ -4,6 +4,7 @@ import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
 import { useSnackbar } from "notistack";
+import { ErrorResponse } from "../../types/error";
 
 const Container = styled.div`
   width: 100%;
@@ -40,7 +41,6 @@ const ShareVideo = () => {
   const { enqueueSnackbar } = useSnackbar();
   const shareVideo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const title = document.getElementById("title") as HTMLInputElement;
     const description = document.getElementById(
       "description"
     ) as HTMLInputElement;
@@ -48,7 +48,6 @@ const ShareVideo = () => {
     try {
       await axiosClient.post("/videos/create", {
         video: {
-          title: title.value,
           description: description.value,
           url: url.value,
         },
@@ -63,15 +62,17 @@ const ShareVideo = () => {
       });
       navigate("/");
     } catch (error) {
-      enqueueSnackbar("Share video failed!", {
-        variant: "error",
-        autoHideDuration: 2000,
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-      });
-      console.log(error);
+      enqueueSnackbar(
+        (error as ErrorResponse).response.data.error || "Share video failed!",
+        {
+          variant: "error",
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        }
+      );
     }
   };
 
@@ -79,10 +80,6 @@ const ShareVideo = () => {
     <Container>
       <h1>ShareVideo</h1>
       <FormContainer onSubmit={shareVideo}>
-        <FormControlContainer>
-          <FormLabel htmlFor="title">Title</FormLabel>
-          <InputField type="text" id="title" required />
-        </FormControlContainer>
         <FormControlContainer>
           <FormLabel htmlFor="description">Description</FormLabel>
           <InputField type="text" id="description" required />
