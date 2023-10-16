@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if [ "$1" == "docker" ]; then
-  export BUILD_DOCKER=1
+  BUILD_DOCKER=1
 fi
 
 start_docker () {
@@ -11,9 +11,6 @@ start_docker () {
 start_rails() {
   if [ "$BUILD_DOCKER" == 1 ]; then
     echo "!!! Starting Rails Docker !!!"
-    docker compose run rails bundle exec rails db:create
-    docker compose run rails bundle exec rails db:migrate
-    docker compose run rails bundle exec rails db:seed
     docker compose up rails
   else
     echo "!!! Starting Rails Local !!!"

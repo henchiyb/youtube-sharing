@@ -18,6 +18,8 @@ services:
       - '6379:6379'
   rails:
     container_name: rails
+    env_file:
+      - .env.docker
     build: 
       context: .
       dockerfile: Dockerfile.dev

@@ -2,56 +2,32 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.2.2
-FROM ruby:$RUBY_VERSION-slim as base
-
-LABEL fly_launch_runtime="rails"
+FROM ruby:$RUBY_VERSION-slim
 
 # Rails app lives here
 WORKDIR /rails
 
 # Set production environment
-ENV RAILS_ENV="development" \
-    BUNDLE_WITHOUT="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    RAILS_MASTER_KEY="f10950908e60069c0ef3e0ccfbbf8c50"
+ENV RAILS_MASTER_KEY="f10950908e60069c0ef3e0ccfbbf8c50" \
+    RAILS_ENV="development"
 
 # Update gems and bundler
 RUN gem update --system --no-document && \
     gem install -N bundler
 
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libpq-dev
+    apt-get install --no-install-recommends -y build-essential libpq-dev ca-certificates
 
 # Install application gems
-COPY --link Gemfile Gemfile.lock ./
-RUN bundle install && \
-    bundle exec bootsnap precompile --gemfile && \
-    rm -rf ~/.bundle/ $BUNDLE_PATH/ruby/*/cache $BUNDLE_PATH/ruby/*/bundler/gems/*/.git
-
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set --local without 'production'
+RUN bundle config set --local path 'vendor/bundle'
+RUN bundle config set --local jobs '4'
+RUN bundle install
 # Copy application code
-COPY --link . .
+COPY . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
-
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
-
-RUN apt-get install -y ca-certificates
 RUN cp local-cert/LocalCA.pem /usr/local/share/ca-certificates/LocalCA.crt
 RUN update-ca-certificates
 
