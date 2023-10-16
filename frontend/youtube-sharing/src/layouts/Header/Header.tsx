@@ -7,11 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import NotificationIcon from "@mui/icons-material/NotificationsActive";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { useLocation, useNavigate } from "react-router-dom";
 import consumer from "../../lib/noticeConsumer";
@@ -21,12 +22,35 @@ const Logo = styled(HomeIcon)`
 `;
 const InputField = styled(TextField)`
   margin-left: 10px !important;
+  @media (max-width: 768px) {
+    margin-left: 0 !important;
+  }
 `;
 
 const BaseButton = styled(Button)`
   margin-left: 10px !important;
   text-transform: none !important;
   border: 1px solid black !important;
+  @media (max-width: 768px) {
+    margin-left: 0 !important;
+  }
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  top: 80px;
+  right: 0;
+  background: white;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 type Notification = {
@@ -43,6 +67,8 @@ const Header = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const [showMenu, setShowMenu] = useState(false);
+
   useEffect(() => {
     const authenticated = async () => {
       const user = await auth.authenticated();
@@ -84,6 +110,7 @@ const Header = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
     auth.login(email.value, password.value);
+    setShowMenu(false);
   };
 
   const signup = () => {
@@ -96,6 +123,56 @@ const Header = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      {showMenu && windowSize.width < 768 && (
+        <Menu>
+          <MenuContainer>
+            {!auth.loading && !auth.user ? (
+              location.pathname !== "/signup" && (
+                <>
+                  <InputField
+                    id="email"
+                    name="email"
+                    label="Email"
+                    color="info"
+                    margin="dense"
+                  />
+                  <InputField
+                    type="password"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    margin="dense"
+                  />
+                  <BaseButton color="inherit" onClick={login}>
+                    Login
+                  </BaseButton>
+                  <BaseButton
+                    color="inherit"
+                    onClick={signup}
+                    sx={{ marginTop: 1 }}
+                  >
+                    Signup
+                  </BaseButton>
+                </>
+              )
+            ) : (
+              <>
+                {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
+                <BaseButton color="inherit" onClick={() => navigate("/share")}>
+                  Share
+                </BaseButton>
+                <BaseButton
+                  color="inherit"
+                  onClick={logout}
+                  sx={{ marginTop: 1 }}
+                >
+                  Logout
+                </BaseButton>
+              </>
+            )}
+          </MenuContainer>
+        </Menu>
+      )}
       <AppBar position="static" style={{ background: "white", color: "black" }}>
         <Toolbar>
           <Logo
@@ -110,9 +187,13 @@ const Header = () => {
             style={{ cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
-            Funny Movies
+            Funny Videos
           </Typography>
-          {!auth.loading && !auth.user ? (
+          {windowSize.width < 768 ? (
+            <BaseButton color="inherit" onClick={() => setShowMenu(!showMenu)}>
+              {showMenu ? <CloseIcon /> : <MenuIcon />}
+            </BaseButton>
+          ) : !auth.loading && !auth.user ? (
             location.pathname !== "/signup" && (
               <>
                 <InputField
@@ -140,7 +221,6 @@ const Header = () => {
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-              <NotificationIcon sx={{ marginLeft: 1, marginRight: 1 }} />
               <BaseButton color="inherit" onClick={() => navigate("/share")}>
                 Share
               </BaseButton>
