@@ -31,6 +31,9 @@ test("renders component", async () => {
       <HomePage />
     </BrowserRouter>
   );
-  const linkElement = await screen.findByText(/Test Video 1/i);
-  expect(linkElement).toBeInTheDocument();
+  const video1Title = await screen.findByText(/Test Video 1/i);
+  expect(video1Title).toBeInTheDocument();
+
+  const video2Title = await screen.findByText(/Test Video 2/i);
+  expect(video2Title).toBeInTheDocument();
 });

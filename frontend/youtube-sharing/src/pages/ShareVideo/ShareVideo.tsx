@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 import { ErrorResponse } from "../../types/error";
 
 const Container = styled.div`
@@ -67,7 +67,10 @@ const ShareVideo = () => {
           url: url.value,
         },
       });
-      enqueueSnackbar("Share video success!", {
+      const notiKey: any = enqueueSnackbar("Share video success!", {
+        SnackbarProps: {
+          onClick: () => closeSnackbar(notiKey),
+        },
         variant: "success",
         autoHideDuration: 1000,
         anchorOrigin: {
@@ -77,9 +80,12 @@ const ShareVideo = () => {
       });
       navigate("/");
     } catch (error) {
-      enqueueSnackbar(
+      const notiKey: any = enqueueSnackbar(
         (error as ErrorResponse).response.data.error || "Share video failed!",
         {
+          SnackbarProps: {
+            onClick: () => closeSnackbar(notiKey),
+          },
           variant: "error",
           autoHideDuration: 1000,
           anchorOrigin: {

@@ -21,6 +21,9 @@ test("renders component", async () => {
       <VideoPage />
     </BrowserRouter>
   );
-  const linkElement = await screen.findByText(/Test Video 1/i);
-  expect(linkElement).toBeInTheDocument();
+  const titleElement = await screen.findByText(/Test Video 1/i);
+  expect(titleElement).toBeInTheDocument();
+
+  const decscriptionElement = await screen.findByText(/Test Description 1/i);
+  expect(decscriptionElement).toBeInTheDocument();
 });

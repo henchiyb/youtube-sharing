@@ -8,6 +8,9 @@ test("renders component", () => {
       <ShareVideo />
     </BrowserRouter>
   );
-  const linkElement = screen.getByText(/Description/i);
-  expect(linkElement).toBeInTheDocument();
+  const descriptionText = screen.getByText(/Description/i);
+  expect(descriptionText).toBeInTheDocument();
+
+  const urlText = screen.getByText(/Url/i);
+  expect(urlText).toBeInTheDocument();
 });

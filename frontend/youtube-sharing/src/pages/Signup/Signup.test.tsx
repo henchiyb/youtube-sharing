@@ -8,6 +8,15 @@ test("renders component", () => {
       <Signup />
     </BrowserRouter>
   );
-  const linkElement = screen.getByText(/Email/i);
-  expect(linkElement).toBeInTheDocument();
+  const emailText = screen.getByText(/Email/i);
+  expect(emailText).toBeInTheDocument();
+
+  const passwordText = screen.getByText(/Password/i);
+  expect(passwordText).toBeInTheDocument();
+
+  screen.findAllByText(/Signup/i).then((res) => {
+    res.forEach((element) => {
+      expect(res[0]).toBeInTheDocument();
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { axiosClient } from "../lib/axios";
-import { enqueueSnackbar } from "notistack";
+import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { ErrorResponse } from "../types/error";
 
 const authContext = createContext<AuthResponse>({
@@ -44,7 +44,10 @@ export const useProvideAuth = () => {
       });
       setUser(response.data.user);
       setLoading(false);
-      enqueueSnackbar("Logged in!", {
+      const notiKey: any = enqueueSnackbar("Logged in!", {
+        SnackbarProps: {
+          onClick: () => closeSnackbar(notiKey),
+        },
         variant: "success",
         autoHideDuration: 1000,
         anchorOrigin: {
@@ -54,9 +57,12 @@ export const useProvideAuth = () => {
       });
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar(
+      const notiKey: any = enqueueSnackbar(
         (error as ErrorResponse).response.data.error || "Login failed!",
         {
+          SnackbarProps: {
+            onClick: () => closeSnackbar(notiKey),
+          },
           variant: "error",
           autoHideDuration: 1000,
           anchorOrigin: {
@@ -73,7 +79,10 @@ export const useProvideAuth = () => {
       await axiosClient.delete("/auth/logout");
       setUser(null);
       setLoading(false);
-      enqueueSnackbar("Logout!", {
+      const notiKey: any = enqueueSnackbar("Logout!", {
+        SnackbarProps: {
+          onClick: () => closeSnackbar(notiKey),
+        },
         variant: "success",
         autoHideDuration: 1000,
         anchorOrigin: {
@@ -83,9 +92,12 @@ export const useProvideAuth = () => {
       });
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar(
+      const notiKey: any = enqueueSnackbar(
         (error as ErrorResponse).response.data.error || "Logout failed!",
         {
+          SnackbarProps: {
+            onClick: () => closeSnackbar(notiKey),
+          },
           variant: "error",
           autoHideDuration: 1000,
           anchorOrigin: {

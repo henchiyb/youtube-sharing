@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 import { ErrorResponse } from "../../types/error";
 
 const Container = styled.div`
@@ -51,7 +51,10 @@ const Signup = () => {
           password: password.value,
         },
       });
-      enqueueSnackbar("Signup success!", {
+      const notiKey: any = enqueueSnackbar("Signup success!", {
+        SnackbarProps: {
+          onClick: () => closeSnackbar(notiKey),
+        },
         variant: "success",
         autoHideDuration: 1000,
         anchorOrigin: {
@@ -61,9 +64,12 @@ const Signup = () => {
       });
       navigate("/");
     } catch (error) {
-      enqueueSnackbar(
+      const notiKey: any = enqueueSnackbar(
         (error as ErrorResponse).response.data.error || "Signup failed!",
         {
+          SnackbarProps: {
+            onClick: () => closeSnackbar(notiKey),
+          },
           variant: "error",
           autoHideDuration: 1000,
           anchorOrigin: {

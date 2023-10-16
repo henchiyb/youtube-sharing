@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { useLocation, useNavigate } from "react-router-dom";
 import consumer from "../../lib/noticeConsumer";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 const Logo = styled(HomeIcon)`
   margin-right: 10px;
 `;
@@ -80,7 +80,7 @@ const Header = () => {
           disconnected: () => console.log("disconnected"),
           received: (data: Notification) => {
             if (data.shareBy !== user?.email) {
-              enqueueSnackbar(
+              const notiKey = enqueueSnackbar(
                 "User " +
                   data.shareBy +
                   " just shared " +
@@ -89,8 +89,9 @@ const Header = () => {
                 {
                   variant: "info",
                   SnackbarProps: {
-                    onClick: (e) => {
+                    onClick: () => {
                       navigate("/videos/" + data.id);
+                      closeSnackbar(notiKey);
                     },
                   },
                 }
