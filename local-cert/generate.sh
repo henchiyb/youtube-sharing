@@ -13,7 +13,3 @@ openssl req -new -key api-local.youtubesharing.com.key -out api-local.youtubesha
 
 openssl x509 -req -in api-local.youtubesharing.com.csr -passin pass:Local@123 -CA LocalCA.pem -CAkey LocalCA.key \
 -CAcreateserial -out api-local.youtubesharing.com.crt  -days 3650 -sha256 -extfile api-local.youtubesharing.com.ext
-
-echo "1325" | sudo -S security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" LocalCA.pem
-
-ssl://api-local.youtubesharing.com:3000?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt
