@@ -31,6 +31,6 @@ console_command = "/rails/bin/rails console"
     [checks.status.headers]
       X-Forwarded-Proto = "https"
 
-[[statics]]
-  guest_path = "/rails/public"
-  url_prefix = "/"
+[env]
+  RAILS_ENV = "production"
+  CLIENT_URL = "https://youtube-sharing.pages.dev"

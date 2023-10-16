@@ -1,6 +1,6 @@
 import ActionCable from "actioncable";
 
-const URL = "wss://api-local.youtubesharing.com:3001/cable";
+const URL = "wss://" + process.env.REACT_APP_API_HOST + "/cable";
 const consumer = ActionCable.createConsumer(URL);
 
 export default consumer;
