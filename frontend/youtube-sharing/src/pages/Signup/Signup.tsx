@@ -4,6 +4,7 @@ import { axiosClient } from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
 import { useSnackbar } from "notistack";
+import { ErrorResponse } from "../../types/error";
 
 const Container = styled.div`
   width: 100%;
@@ -34,12 +35,6 @@ const FormControlContainer = styled(FormControl)`
 const InputField = styled(Input)`
   margin-top: 0;
 `;
-
-type ErrorResponse = {
-  response: {
-    data: { error: string };
-  };
-};
 
 const Signup = () => {
   const navigate = useNavigate();

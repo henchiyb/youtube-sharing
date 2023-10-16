@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { axiosClient } from "../lib/axios";
+import { enqueueSnackbar } from "notistack";
+import { ErrorResponse } from "../types/error";
 
 const authContext = createContext<AuthResponse>({
   user: null,
@@ -42,8 +44,27 @@ export const useProvideAuth = () => {
       });
       setUser(response.data.user);
       setLoading(false);
+      enqueueSnackbar("Logged in!", {
+        variant: "success",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
     } catch (error) {
       setLoading(false);
+      enqueueSnackbar(
+        (error as ErrorResponse).response.data.error || "Login failed!",
+        {
+          variant: "error",
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        }
+      );
     }
   };
 
@@ -52,8 +73,27 @@ export const useProvideAuth = () => {
       await axiosClient.delete("/auth/logout");
       setUser(null);
       setLoading(false);
+      enqueueSnackbar("Logout!", {
+        variant: "success",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
     } catch (error) {
       setLoading(false);
+      enqueueSnackbar(
+        (error as ErrorResponse).response.data.error || "Logout failed!",
+        {
+          variant: "error",
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        }
+      );
     }
   };
 
