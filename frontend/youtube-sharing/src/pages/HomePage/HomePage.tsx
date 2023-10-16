@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Video from "../../components/Video/Video";
 import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
+import { Video as VideoType } from "../../types/video";
 
 const Container = styled.div`
   width: 100%;
@@ -11,16 +12,9 @@ const Container = styled.div`
 
   padding: 10px;
 `;
-type Video = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  shareBy: string;
-};
 
 function HomePage() {
-  const [videos, setVideos] = useState<Video[]>([]);
+  const [videos, setVideos] = useState<VideoType[]>([]);
   useEffect(() => {
     const getVideos = async () => {
       try {

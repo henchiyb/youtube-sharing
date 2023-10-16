@@ -3,6 +3,7 @@ import Video from "../../components/Video/Video";
 import styled from "styled-components";
 import { axiosClient } from "../../lib/axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { Video as VideoType } from "../../types/video";
 
 const Container = styled.div`
   width: 100%;
@@ -12,16 +13,9 @@ const Container = styled.div`
 
   padding: 10px;
 `;
-type Video = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  shareBy: string;
-};
 
 function VideoPage() {
-  const [video, setVideo] = useState<Video | null>(null);
+  const [video, setVideo] = useState<VideoType | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,6 +29,7 @@ function VideoPage() {
       }
     };
     getVideo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

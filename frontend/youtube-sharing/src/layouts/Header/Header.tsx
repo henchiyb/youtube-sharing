@@ -11,7 +11,7 @@ import NotificationIcon from "@mui/icons-material/NotificationsActive";
 
 import styled from "styled-components";
 import { useAuth } from "../../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { useLocation, useNavigate } from "react-router-dom";
 import consumer from "../../lib/noticeConsumer";
@@ -83,6 +83,7 @@ const Header = () => {
       );
     };
     authenticated();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const login = () => {
     const email = document.getElementById("email") as HTMLInputElement;
