@@ -1,13 +1,28 @@
+#!/bin/bash
+set -e
+if [ "$1" == "docker" ]; then
+  export BUILD_DOCKER=1
+fi
+
 start_docker () {
   docker compose up -d db redis
 }
 
 start_rails() {
-  bundle check || bundle install --without production
-  bundle exec rails db:create
-  bundle exec rails db:migrate
-  bundle exec rails db:seed
-  bundle exec rails s -p 3001 -b "ssl://api-local.youtubesharing.com:3001?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt"
+  if [ "$BUILD_DOCKER" == 1 ]; then
+    echo "!!! Starting Rails Docker !!!"
+    docker compose run rails bundle exec rails db:create
+    docker compose run rails bundle exec rails db:migrate
+    docker compose run rails bundle exec rails db:seed
+    docker compose up rails
+  else
+    echo "!!! Starting Rails Local !!!"
+    bundle check || bundle install --without production
+    bundle exec rails db:create
+    bundle exec rails db:migrate
+    bundle exec rails db:seed
+    bundle exec rails s -p 3001 -b "ssl://api-local.youtubesharing.com:3001?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt"
+  fi
 }
 
 start_react() {

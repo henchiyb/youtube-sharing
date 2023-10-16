@@ -18,10 +18,17 @@ services:
       - '6379:6379'
   rails:
     container_name: rails
-    build: .
-    command: bundle exec rails s -p 3000 -b "ssl://api-local.youtubesharing.com:3001?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt"
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - "rails_data:/rails"
     ports:
-      - '3000:3000'
+      - '3001:3000'
+    depends_on:
+      - db
+      - redis
 
 volumes:
   db_data:
+  rails_data:
