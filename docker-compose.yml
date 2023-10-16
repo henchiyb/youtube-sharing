@@ -1,25 +1,21 @@
 version: '3'
 
 services:
-  # MySQL
+  # Postgres
   db:
-    container_name: mysql8
-    image: mysql:8.0
-    command: mysqld --default-authentication-plugin=caching_sha2_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    container_name: postgresql
+    image: postgres:14-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: default-db
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - './docker/db/data:/var/lib/mysql'
-      - './docker/db/my.cnf:/etc/mysql/conf.d/my.cnf'
-      - './docker/db/sql:/docker-entrypoint-initdb.d'
+      - 'db_data:/var/lib/postgresql/data'
   redis:
     container_name: redis
     image: redis:7.2.1
     ports:
       - '6379:6379'
-    volumes:
-      - './docker/redis/data:/data'
+
+volumes:
+  db_data:
