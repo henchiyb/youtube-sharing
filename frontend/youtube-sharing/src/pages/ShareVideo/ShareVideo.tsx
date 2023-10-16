@@ -54,7 +54,7 @@ const ShareVideo = () => {
       });
       enqueueSnackbar("Share video success!", {
         variant: "success",
-        autoHideDuration: 2000,
+        autoHideDuration: 1000,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -66,7 +66,7 @@ const ShareVideo = () => {
         (error as ErrorResponse).response.data.error || "Share video failed!",
         {
           variant: "error",
-          autoHideDuration: 2000,
+          autoHideDuration: 1000,
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",

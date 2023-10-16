@@ -53,7 +53,7 @@ const Signup = () => {
       });
       enqueueSnackbar("Signup success!", {
         variant: "success",
-        autoHideDuration: 2000,
+        autoHideDuration: 1000,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -65,7 +65,7 @@ const Signup = () => {
         (error as ErrorResponse).response.data.error || "Signup failed!",
         {
           variant: "error",
-          autoHideDuration: 2000,
+          autoHideDuration: 1000,
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",

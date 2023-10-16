@@ -46,7 +46,7 @@ export const useProvideAuth = () => {
       setLoading(false);
       enqueueSnackbar("Logged in!", {
         variant: "success",
-        autoHideDuration: 2000,
+        autoHideDuration: 1000,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -58,7 +58,7 @@ export const useProvideAuth = () => {
         (error as ErrorResponse).response.data.error || "Login failed!",
         {
           variant: "error",
-          autoHideDuration: 2000,
+          autoHideDuration: 1000,
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",
@@ -75,7 +75,7 @@ export const useProvideAuth = () => {
       setLoading(false);
       enqueueSnackbar("Logout!", {
         variant: "success",
-        autoHideDuration: 2000,
+        autoHideDuration: 1000,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -87,7 +87,7 @@ export const useProvideAuth = () => {
         (error as ErrorResponse).response.data.error || "Logout failed!",
         {
           variant: "error",
-          autoHideDuration: 2000,
+          autoHideDuration: 1000,
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",

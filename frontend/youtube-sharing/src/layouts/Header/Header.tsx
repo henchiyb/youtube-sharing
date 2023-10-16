@@ -115,6 +115,7 @@ const Header = () => {
 
   const signup = () => {
     navigate("/signup");
+    setShowMenu(false);
   };
 
   const logout = () => {
@@ -158,7 +159,13 @@ const Header = () => {
             ) : (
               <>
                 {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-                <BaseButton color="inherit" onClick={() => navigate("/share")}>
+                <BaseButton
+                  color="inherit"
+                  onClick={() => {
+                    setShowMenu(false);
+                    navigate("/share");
+                  }}
+                >
                   Share
                 </BaseButton>
                 <BaseButton
@@ -178,14 +185,20 @@ const Header = () => {
           <Logo
             fontSize="large"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              setShowMenu(false);
+              navigate("/");
+            }}
           />
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
+            onClick={() => {
+              setShowMenu(false);
+              navigate("/");
+            }}
           >
             Funny Videos
           </Typography>
@@ -221,6 +234,7 @@ const Header = () => {
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
+              setShowMenu(false);
               <BaseButton color="inherit" onClick={() => navigate("/share")}>
                 Share
               </BaseButton>
