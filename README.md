@@ -198,6 +198,9 @@ npm run test
     ```
   - SECRET_KE_BASE missing error: run `bin/rails credentials:edit` or `bin/rails credentials:edit --environment=production` for generate key base. Add the master.key file value as the RAILS_MASTER_KEY env
 
-  - If the notification not working
+  - If the notification is not working
     - Check your redis server and REDIS_URL setup in env file
     - Rerun the redis and rails docker
+  
+  - If have problem with spec/system test
+    - CHeck your Selenium driver installation
