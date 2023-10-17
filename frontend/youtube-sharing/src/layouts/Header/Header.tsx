@@ -68,7 +68,7 @@ const Header = () => {
 
   useEffect(() => {
     const authenticated = async () => {
-      const user = await auth.authenticated();
+      let user = await auth.authenticated();
       consumer.subscriptions.create(
         {
           channel: "NotificationChannel",
@@ -78,28 +78,25 @@ const Header = () => {
             console.log("connected");
           },
           disconnected: () => console.log("disconnected"),
-          received: (data: Notification) => {
-            try {
-              if (data.shareBy !== user?.email) {
-                const notiKey = enqueueSnackbar(
-                  "User " +
-                    data.shareBy +
-                    " just shared " +
-                    data.title +
-                    " video. Click here to view!",
-                  {
-                    variant: "info",
-                    SnackbarProps: {
-                      onClick: () => {
-                        navigate("/videos/" + data.id);
-                        closeSnackbar(notiKey);
-                      },
+          received: async (data: Notification) => {
+            user = await auth.authenticated();
+            if (data.shareBy !== user?.email) {
+              const notiKey = enqueueSnackbar(
+                "User " +
+                  data.shareBy +
+                  " just shared " +
+                  data.title +
+                  " video. Click here to view!",
+                {
+                  variant: "info",
+                  SnackbarProps: {
+                    onClick: () => {
+                      navigate("/videos/" + data.id);
+                      closeSnackbar(notiKey);
                     },
-                  }
-                );
-              }
-            } catch (error) {
-              console.log(error);
+                  },
+                }
+              );
             }
           },
         }
