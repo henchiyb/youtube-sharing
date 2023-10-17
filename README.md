@@ -98,11 +98,20 @@ Features:
   ```
 ### Test run
 - Rails
-
+  - Requests and Models spec:
 ```
 bundle exec rspec
-
+# or
+./test.sh
 ```
+  - Integration test with Capybara
+```
+# Run all test
+./test.sh
+# or
+./test.sh spec/system
+```
+
 - React
 
 ```
