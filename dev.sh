@@ -23,12 +23,18 @@ start_rails() {
 }
 
 start_react() {
-  cd frontend/youtube-sharing
-  npm install
-  npm start &
-  WEBPACK_ID=$!
-  trap "kill -- -$WEBPACK_ID" EXIT INT
-  trap "pkill webpack" EXIT INT
+  if [ "$BUILD_DOCKER" == 1 ]; then
+    echo "!!! Starting React Docker !!!"
+    docker compose up react -d
+  else
+    echo "!!! Starting React Local !!!"
+    cd frontend/youtube-sharing
+    npm install
+    npm start &
+    WEBPACK_ID=$!
+    trap "kill -- -$WEBPACK_ID" EXIT INT
+    trap "pkill webpack" EXIT INT
+  fi
 }
 
 echo "Prepare environment variables"
