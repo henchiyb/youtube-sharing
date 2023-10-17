@@ -29,6 +29,7 @@ COPY . .
 
 RUN cp local-cert/LocalCA.pem /usr/local/share/ca-certificates/LocalCA.crt
 RUN update-ca-certificates
+RUN chmod +x /rails/bin/docker-entrypoint
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]

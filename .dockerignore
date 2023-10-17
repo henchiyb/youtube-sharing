@@ -30,7 +30,7 @@
 /tmp/storage/*
 !/tmp/storage/.keep
 
-/bin
+/vendor
 
 # Ignore assets.
 /node_modules/

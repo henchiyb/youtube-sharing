@@ -18,7 +18,7 @@ RSpec.describe "Login", type: :system do
       fill_in("Description", with: "Test description")
       fill_in("Url", with: "https://www.youtube.com/watch?v=hBXzaJHR_ZA")
       click_on("Share")
-      expect(page).to have_text("Video shared!")
+      expect(page).to have_text("Share video success!")
     end
   end
 end

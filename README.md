@@ -44,7 +44,7 @@ Features:
 ```
 3. Create env file:
 - Look up your ip: `ifconfig -u | grep 'inet ' | grep -v 127.0.0.1 | cut -d\  -f2 | head -1`
-- Create .env file copy from .env.example file and replace DB_HOST with your IP
+- Create .env and .env.docker files copy from .env.example file and replace DB_HOST with your IP
 
 
 4. Run the dev.sh script: 
@@ -52,32 +52,8 @@ Features:
 - With docker rails server: `./dev.sh docker`
 
 # Running Application (without using script)
-### Repository Structure
-- root fodler # rails app
-  - app
-  - spec # RSpec test
-  - frontend/youtube-sharing # React app
-
-### Model
-- User
-  - email
-  - password
-- Video
-  - title
-  - description
-  - video_url
-  - user_id
-
 ### Installation
-- Add to `/etc/hosts` file:
-
-```
-127.0.0.1 local.youtubesharing.com
-::1       local.youtubesharing.com
-
-127.0.0.1 api-local.youtubesharing.com
-::1       api-local.youtubesharing.com
-```
+- Add to `/etc/hosts` file, setup the local certificate and setup the env file the same as above
 - Rails
   - Start db and redis: `docker compose up -d db redis`
   - DB migration
@@ -88,8 +64,6 @@ Features:
   bin/rails db:migrate
   bin/rails db:seed
   ```
-
-  - Setup local cert (Same as `local-cert/setup.sh`` file)
   - Run server: `bundle exec rails s -p 3001 -b "ssl://api-local.youtubesharing.com:3001?key=local-cert/api-local.youtubesharing.com.key&cert=local-cert/api-local.youtubesharing.com.crt"`
 - React
   ```
@@ -99,24 +73,23 @@ Features:
   ```
 ### Test run
 - Rails
-  - Requests and Models spec:
+  - Set up the env (Start docker for integration test) and migrate the DB
+```
+./test.sh
+```
+  - Run test
 ```
 bundle exec rspec
-# or
-./test.sh
 ```
-  - Integration test with Capybara
+  - Terminate the test docker
 ```
-# Run all test
-./test.sh
-# or
-./test.sh spec/system
+./test.sh down
 ```
 
 - React
-
 ```
 cd frontend/youtube-sharing
+npm i
 npm run test
 ```
 
