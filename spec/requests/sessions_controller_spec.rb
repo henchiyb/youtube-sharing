@@ -7,7 +7,6 @@ RSpec.describe 'Sessions', type: :request do
 
     it 'returns http success' do
       post '/api/auth/login', params: params
-
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)).to eq({
         'message': 'Logged in',

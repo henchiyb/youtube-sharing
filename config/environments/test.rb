@@ -24,6 +24,8 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
+  config.action_cable.url = 'wss://api-local.youtubesharing.com:3003/cable'
+  config.action_cable.allowed_request_origins = [ENV.fetch('CLIENT_URL', 'https://youtube-sharing.pages.dev')]
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true

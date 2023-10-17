@@ -24,7 +24,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - "rails_data:/rails"
+      - "./:/rails"
+      - "rails_tmp:/rails/tmp"
     ports:
       - '3001:3000'
     depends_on:
@@ -48,3 +49,4 @@ services:
 volumes:
   db_data:
   rails_data:
+  rails_tmp:

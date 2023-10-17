@@ -8,9 +8,6 @@ class Video < ApplicationRecord
     if url.present?
       uri    = URI.parse(url)
       params = CGI.parse(uri.query)
-      query = { url: url, format: 'json' }.to_query
-      video_data = Faraday.get("https://www.youtube.com/oembed?#{query}").body
-      self.title = JSON.parse(video_data)['title'] || "Unknown title"
       self.url = "https://www.youtube.com/embed/#{params['v'].first}"
     end
   rescue StandardError

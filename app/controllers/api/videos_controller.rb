@@ -7,7 +7,10 @@ module Api
     end
 
     def create
-      video = current_user.videos.create!(video_params)
+      query = { url: video_params[:url], format: 'json' }.to_query
+      video_data = Faraday.get("https://www.youtube.com/oembed?#{query}").body
+      title = JSON.parse(video_data)['title'] || "Unknown title"
+      video = current_user.videos.create!(video_params.merge(title: title))
       ActionCable.server.broadcast('notification_channel', video.api_response)
 
       render json: { message: 'Video created', video: video.api_response }, status: :created

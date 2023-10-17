@@ -15,6 +15,7 @@ Rails.application.configure do
   config.hosts << '0.0.0.0'
   config.hosts << 'api-local.youtubesharing.com'
   config.action_cable.url = 'wss://api-local.youtubesharing.com:3001/cable'
+  config.action_cable.allowed_request_origins = [ENV.fetch('CLIENT_URL', 'https://youtube-sharing.pages.dev')]
 
   # Do not eager load code on boot.
   config.eager_load = false

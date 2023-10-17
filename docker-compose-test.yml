@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  rails-test:
+    container_name: rails-test
+    env_file:
+      - .env.test
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - "./:/rails"
+      - "rails_test_tmp:/rails/tmp"
+    ports:
+      - '3003:3000'
+
+  react-test:
+    container_name: react-test
+    environment:
+      - ROWSER=none
+      - HTTPS=true
+      - SSL_CRT_FILE=local.youtubesharing.com.crt
+      - SSL_KEY_FILE=local.youtubesharing.com.key
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=https://api-local.youtubesharing.com:3003
+      - REACT_APP_API_HOST=api-local.youtubesharing.com:3003
+    build:
+      context: frontend/youtube-sharing
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend/youtube-sharing:/app
+      - ./frontend/youtube-sharing/node_modules:/app/node_modules
+    ports:
+      - '3002:3000'
+    depends_on:
+      - rails-test
+
+volumes:
+  rails_test_tmp:

@@ -155,7 +155,7 @@ npm run test
   `lsof -i :3000 | awk '/[1-9]/ {print $2}' | xargs kill -9`
 
   - Cannot run bundle install: check presequites install
-  - Cannot connect Postgresql database: check .env file setup, need to same as below
+  - Cannot connect Postgresql database - There is an issue connecting with your hostname: check .env file setup, need to same as below (especially your DB_HOST - Look up your ip: `ifconfig -u | grep 'inet ' | grep -v 127.0.0.1 | cut -d\  -f2 | head -1`)
 
   ```
     CLIENT_URL=https://local.youtubesharing.com:3000
