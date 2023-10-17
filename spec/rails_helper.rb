@@ -7,6 +7,10 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'selenium/webdriver'
+require 'capybara/rails'
+require 'capybara/rspec'
+require 'database_cleaner/active_record'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -31,7 +35,32 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+Capybara::Selenium::Driver.prepend(Module.new do
+  def reset!
+    quit
+  end
+end)
+
 RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+    Rails.application.load_seed
+  end
+
+  config.before do
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
+
+  config.prepend_before(:each, type: :system) do
+    driven_by :selenium
+    Capybara.app_host = "https://local.youtubesharing.com:3002"
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
 

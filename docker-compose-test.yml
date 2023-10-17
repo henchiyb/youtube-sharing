@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
-      - "./:/rails"
+      - "rails_test_data:/rails"
       - "rails_test_tmp:/rails/tmp"
     ports:
       - '3003:3000'
@@ -36,4 +36,5 @@ services:
       - rails-test
 
 volumes:
+  rails_test_data:
   rails_test_tmp:

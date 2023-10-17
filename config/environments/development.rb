@@ -10,9 +10,6 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
-  config.hosts << 'localhost'
-  config.hosts << '127.0.0.1'
-  config.hosts << '0.0.0.0'
   config.hosts << 'api-local.youtubesharing.com'
   config.action_cable.url = 'wss://api-local.youtubesharing.com:3001/cable'
   config.action_cable.allowed_request_origins = [ENV.fetch('CLIENT_URL', 'https://youtube-sharing.pages.dev')]

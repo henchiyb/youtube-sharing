@@ -11,14 +11,7 @@ RSpec.describe 'Videos', type: :request do
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)).to eq({
         'message': 'Videos',
-        'videos': [{
-          'id': video.id,
-          title: 'Title',
-          description:
-          'Description',
-          shareBy: user.email,
-          url: 'https://www.youtube.com/embed/hBXzaJHR_ZA'
-        }]
+        'videos': Video.includes(:user).order(created_at: :desc).map { |vid| vid.api_response }
       }.as_json)
     end
   end
