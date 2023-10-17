@@ -11,7 +11,11 @@ module Api
       video_data = Faraday.get("https://www.youtube.com/oembed?#{query}").body
       title = JSON.parse(video_data)['title'] || "Unknown title"
       video = current_user.videos.create!(video_params.merge(title: title))
-      ActionCable.server.broadcast('notification_channel', video.api_response)
+      begin
+        ActionCable.server.broadcast('notification_channel', video.api_response)
+      rescue StandardError => e
+        Rails.logger.info "ActionCable.server.broadcast error: #{e.message}"
+      end
 
       render json: { message: 'Video created', video: video.api_response }, status: :created
     end
@@ -21,7 +25,7 @@ module Api
       if video
         render json: { message: 'Video', video: video.api_response }
       else
-        render json: { message: 'Video not found' }, status: :not_found
+        render json: { error: 'Video not found' }, status: :not_found
       end
     end
 

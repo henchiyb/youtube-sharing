@@ -120,6 +120,15 @@ npm run test
 ```
 
 # Docker build
+## Related resources
+- Dockerfile: for production build
+- Dockerfile.dev: for developement build
+- docker-compose.yml: for developement build
+- docker-compose-test.yml: for test build
+- .env: for developement local env
+- .env.test: for test env
+- .env.docker: for development docker env
+
 ### Local
 `docker compose build rails`
 

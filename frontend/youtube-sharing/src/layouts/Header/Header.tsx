@@ -179,9 +179,11 @@ const Header = () => {
           ) : (
             <>
               {windowSize.width > 768 && <div>Hello {auth.user?.email}</div>}
-              <BaseButton color="inherit" onClick={() => navigate("/share")}>
-                Share
-              </BaseButton>
+              {location.pathname !== "/share" && (
+                <BaseButton color="inherit" onClick={() => navigate("/share")}>
+                  Share
+                </BaseButton>
+              )}
               <BaseButton color="inherit" onClick={logout}>
                 Logout
               </BaseButton>
