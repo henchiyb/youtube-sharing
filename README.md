@@ -19,6 +19,7 @@ Features:
 - Ruby v3.2.2
 - Node v20.6.1
 - Postgresql 14
+- redis v7.2.1
 
 
 # Installation & Configuration
@@ -196,3 +197,7 @@ npm run test
     ./setup.sh
     ```
   - SECRET_KE_BASE missing error: run `bin/rails credentials:edit` or `bin/rails credentials:edit --environment=production` for generate key base. Add the master.key file value as the RAILS_MASTER_KEY env
+
+  - If the notification not working
+    - Check your redis server and REDIS_URL setup in env file
+    - Rerun the redis and rails docker

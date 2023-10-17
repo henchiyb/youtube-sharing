@@ -79,23 +79,27 @@ const Header = () => {
           },
           disconnected: () => console.log("disconnected"),
           received: (data: Notification) => {
-            if (data.shareBy !== user?.email) {
-              const notiKey = enqueueSnackbar(
-                "User " +
-                  data.shareBy +
-                  " just shared " +
-                  data.title +
-                  " video. Click here to view!",
-                {
-                  variant: "info",
-                  SnackbarProps: {
-                    onClick: () => {
-                      navigate("/videos/" + data.id);
-                      closeSnackbar(notiKey);
+            try {
+              if (data.shareBy !== user?.email) {
+                const notiKey = enqueueSnackbar(
+                  "User " +
+                    data.shareBy +
+                    " just shared " +
+                    data.title +
+                    " video. Click here to view!",
+                  {
+                    variant: "info",
+                    SnackbarProps: {
+                      onClick: () => {
+                        navigate("/videos/" + data.id);
+                        closeSnackbar(notiKey);
+                      },
                     },
-                  },
-                }
-              );
+                  }
+                );
+              }
+            } catch (error) {
+              console.log(error);
             }
           },
         }
